@@ -9,11 +9,11 @@
 <meta name="theme-color" content="#000000">
 <title>GLASSLESS 3D : CRYSTAL SPHERE HOLOGRAM</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
-html,body{width:100%;height:100dvh;overflow:hidden;background:#000;color:#e8faff;touch-action:none}
+*{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif}
+html,body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;background:#000;color:#e8faff;touch-action:none}
 #cv{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1}
-#lockScr{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 38%,rgba(0,38,62,0.92),#000 78%);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .26s,transform .26s}
-#lockScr.pass{opacity:0;pointer-events:none;transform:scale(1.06)}
+#lockScr{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 38%,rgba(0,38,62,0.92),#000 78%);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .24s}
+#lockScr.pass{opacity:0;pointer-events:none}
 .lkBox{width:min(300px,84vw);background:rgba(4,12,24,0.86);border:1px solid rgba(0,240,255,0.38);border-radius:20px;padding:22px 18px;box-shadow:0 0 32px rgba(0,220,255,0.18);display:flex;flex-direction:column;align-items:center;gap:14px}
 .lkTtl{font-size:11px;font-weight:800;letter-spacing:2.2px;color:#00f2fe;text-shadow:0 0 10px rgba(0,242,254,0.55)}
 .lkSub{font-size:10px;font-weight:700;letter-spacing:3px;color:#99f2ff;opacity:0.85}
@@ -23,7 +23,7 @@ html,body{width:100%;height:100dvh;overflow:hidden;background:#000;color:#e8faff
 .dot.err{border-color:#ff2a85;background:#ff2a85;box-shadow:0 0 14px #ff2a85}
 .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
 .kBtn{height:48px;border-radius:12px;border:1px solid rgba(0,220,255,0.28);background:rgba(8,22,40,0.85);color:#e8faff;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 10px rgba(0,240,255,0.08)}
-.kBtn:active{background:rgba(0,187,249,0.35);border-color:#00f2fe;transform:scale(0.95)}
+.kBtn.act{background:rgba(0,187,249,0.35);border-color:#00f2fe;transform:scale(0.95)}
 .kBtn.fn{font-size:12px;color:#99f2ff}
 .hud{position:fixed;z-index:10;background:rgba(4,10,20,0.74);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,240,255,0.32);border-radius:14px;padding:8px 11px;box-shadow:0 0 18px rgba(0,220,255,0.12);transition:opacity .22s,transform .22s}
 .hud.hide{opacity:0;pointer-events:none;transform:scale(0.95)}
@@ -35,7 +35,7 @@ html,body{width:100%;height:100dvh;overflow:hidden;background:#000;color:#e8faff
 .cls{flex-shrink:0;padding:2px 7px;border-radius:6px;border:1px solid rgba(0,240,255,0.3);background:rgba(0,40,60,0.5);color:#bff8ff;font-size:10px;cursor:pointer}
 .spdRow{display:flex;align-items:center;gap:7px}
 .pBtn{padding:4px 8px;border-radius:7px;border:1px solid rgba(0,240,255,0.35);background:rgba(8,24,42,0.85);color:#d0f8ff;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap}
-input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:3px;background:linear-gradient(90deg,#00f2fe,#ff007f);outline:none}
+input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:3px;background:linear-gradient(90deg,#00f2fe,#ff007f);outline:none;touch-action:pan-x}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #00f2fe;box-shadow:0 0 10px #00f2fe}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:5px}
 .btn{padding:7px 8px;border-radius:8px;border:1px solid rgba(0,220,255,0.24);background:rgba(8,18,34,0.82);color:#bceeff;font-size:11px;font-weight:700;text-align:center;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -82,20 +82,33 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 (()=>{
 const _0xd=document,_0xw=window,_0xm=Math;
 _0xd.addEventListener('contextmenu',e=>e.preventDefault());
+_0xd.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+_0xd.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
 _0xd.addEventListener('keydown',e=>{if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&(e.key==='u'||e.key==='U'||e.key==='s'||e.key==='S'))||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['I','i','J','j','C','c'].includes(e.key)))e.preventDefault()});
 
+const _cv=_0xd.getElementById('cv'),_cx=_cv.getContext('2d');
+let _W=1,_H=1,_dp=1,_t=0,_sp=1.8,_pa=0,_ah=0,_pS={topPnl:1,botPnl:1};
+let _rX=0.22,_rY=-0.38,_zm=1,_cZ=1,_xO=0,_yO=0,_sq=1,_hd=0,_fl=0,_cI=0,_tI=0,_dO=1,_lO=1;
+
+function _rs(){_dp=_0xm.min(_0xw.devicePixelRatio||1,2);_W=_0xw.innerWidth;_H=_0xw.innerHeight;_cv.width=_W*_dp;_cv.height=_H*_dp}
+_0xw.addEventListener('resize',_rs);_rs();
+
 let _pin='',_lk=_0xd.getElementById('lockScr'),_dts=[..._0xd.querySelectorAll('#pDots .dot')],_kp=_0xd.getElementById('kPad');
+_lk.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
 ['1','2','3','4','5','6','7','8','9','C','0','⌫'].forEach(k=>{
   const b=_0xd.createElement('div');b.className='kBtn'+(isNaN(k)?' fn':'');b.textContent=k;
+  b.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
   b.addEventListener('pointerdown',e=>{
-    e.stopPropagation();
+    e.preventDefault();e.stopPropagation();
+    b.classList.add('act');setTimeout(()=>b.classList.remove('act'),110);
     if(k==='C')_pin='';
     else if(k==='⌫')_pin=_pin.slice(0,-1);
     else if(_pin.length<4)_pin+=k;
     _dts.forEach((d,i)=>{d.className='dot'+(i<_pin.length?' on':'')});
     if(_pin.length===4){
       if((parseInt(_pin,10)^0x1234)===0x353b){
-        _lk.classList.add('pass');setTimeout(()=>_lk&&_lk.remove(),260);
+        _lk.classList.add('pass');_0xw.scrollTo(0,0);_rs();
+        setTimeout(()=>{if(_lk)_lk.remove();_0xw.scrollTo(0,0);_rs()},250);
       }else{
         _dts.forEach(d=>d.className='dot err');
         setTimeout(()=>{_pin='';_dts.forEach(d=>d.className='dot')},260);
@@ -105,10 +118,6 @@ let _pin='',_lk=_0xd.getElementById('lockScr'),_dts=[..._0xd.querySelectorAll('#
   _kp.appendChild(b);
 });
 
-const _cv=_0xd.getElementById('cv'),_cx=_cv.getContext('2d');
-let _W=1,_H=1,_dp=1,_t=0,_sp=1.8,_pa=0,_ah=0,_pS={topPnl:1,botPnl:1};
-let _rX=0.22,_rY=-0.38,_zm=1,_cZ=1,_xO=0,_yO=0,_sq=1,_hd=0,_fl=0,_cI=0,_tI=0,_dO=1,_lO=1;
-
 const _MT=2,_OM=2;
 const _CL=[
   {n:"\u{1F48E} AQUA",f:"\u{1F48E} AQUA DIAMOND",c1:"#00bbf9",c2:"#00f5d4",c3:"#ffffff"},
@@ -117,9 +126,6 @@ const _CL=[
 const _TC=[{n:"\u{1F4A5} \u30BF\u30C3\u30C1:\u8D85\u65B0\u661F\u30D0\u30FC\u30B9\u30C8",id:3},{n:"\u{1F6AB} \u30BF\u30C3\u30C1:OFF",id:0}];
 const _FX={sName:"\u{1F578}\uFE0F \u6642\u7A7A\u30B0\u30EA\u30C3\u30C9",sId:2,lName:"\u{1F4A5} \u30D3\u30C3\u30B0\u30D0\u30F3\u7167\u5C04",lId:2};
 const _OD={1:["\u26AB","BH\u2794BB"],2:["\u2728","\u661F\u306E\u6CC9"],3:["\u{1F300}","\u8D85\u91CD\u529B\u6E26"],4:["\u2744\uFE0F","\u7D50\u6676\u7403"]};
-
-function _rs(){_dp=_0xm.min(_0xw.devicePixelRatio||1,2);_W=_0xw.innerWidth;_H=_0xw.innerHeight;_cv.width=_W*_dp;_cv.height=_H*_dp}
-_0xw.addEventListener('resize',_rs);_rs();
 
 const _PH=_0xm.PI*(3-_0xm.sqrt(5)),_N=4400,_GC=24,_pt=[],_st=[],_fx=[],_rg=[],_ls=[];
 for(let i=0;i<_N;i++){
@@ -192,7 +198,7 @@ function _sF(ox,oy,a,sp,c){
 }
 
 const _oE=_0xd.getElementById('orbBtn');
-_oE.addEventListener('pointerdown',e=>{e.stopPropagation();_hd=1;_oE.classList.add('act')});
+_oE.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();_hd=1;_oE.classList.add('act')});
 function _rO(){
   if(!_hd)return;_hd=0;_oE.classList.remove('act');
   const pal=_CL[_cI],ox=_W/2+_xO,oy=_H/2+_yO;
